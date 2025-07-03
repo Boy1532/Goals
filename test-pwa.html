@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PWA Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #00ff88;
+        }
+        .success { border-left-color: #00ff88; }
+        .error { border-left-color: #ff4444; }
+        .warning { border-left-color: #ffaa00; }
+        .code {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 PWA Тест</h1>
+    
+    <div class="test-item success">
+        <h3>✅ PWA Готовий</h3>
+        <p>Ваш додаток готовий для встановлення на iPhone!</p>
+    </div>
+
+    <div class="test-item">
+        <h3>📱 Як встановити на iPhone:</h3>
+        <ol>
+            <li>Відкрийте Safari на iPhone</li>
+            <li>Перейдіть за адресою вашого додатку</li>
+            <li>Натисніть кнопку "Поділитися" (□↑)</li>
+            <li>Виберіть "На головний екран"</li>
+            <li>Натисніть "Додати"</li>
+        </ol>
+    </div>
+
+    <div class="test-item">
+        <h3>🌐 Хостинг варіанти:</h3>
+        <div class="code">
+            <strong>GitHub Pages (Безкоштовно):</strong><br>
+            1. Створіть репозиторій на GitHub<br>
+            2. Завантажте файли<br>
+            3. Settings → Pages → Source: main<br>
+            4. URL: https://username.github.io/repo-name
+        </div>
+        
+        <div class="code">
+            <strong>Netlify (Безкоштовно):</strong><br>
+            1. Зареєструйтесь на netlify.com<br>
+            2. Drag & drop папку з файлами<br>
+            3. Отримайте URL автоматично
+        </div>
+        
+        <div class="code">
+            <strong>Vercel (Безкоштовно):</strong><br>
+            1. Зареєструйтесь на vercel.com<br>
+            2. Підключіть GitHub репозиторій<br>
+            3. Автоматичне розгортання
+        </div>
+    </div>
+
+    <div class="test-item warning">
+        <h3>⚠️ Важливо:</h3>
+        <ul>
+            <li>Додаток повинен працювати через HTTPS</li>
+            <li>Створіть іконки за допомогою generate-icon.html</li>
+            <li>Переконайтеся, що всі файли завантажені на хостинг</li>
+        </ul>
+    </div>
+
+    <div class="test-item">
+        <h3>🔧 Перевірка PWA:</h3>
+        <p>Відкрийте DevTools (F12) → Application → Manifest</p>
+        <p>Перевірте, чи всі поля заповнені правильно</p>
+    </div>
+
+    <div class="test-item success">
+        <h3>🎉 Готово!</h3>
+        <p>Ваш додаток тепер можна встановити на iPhone як нативний додаток!</p>
+    </div>
+</body>
+</html> 

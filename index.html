@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>Way to Freedom</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Goals Tracker">
+    <meta name="description" content="Додаток для відстеження цілей з прогрес-барами">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="icons/icon-167x167.png">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-top">
+                <h1 id="app-title">Мої цілі</h1>
+                <div class="header-buttons">
+                    <div id="offline-indicator" class="offline-indicator" style="display: none;">
+                        <i class="fas fa-wifi-slash"></i>
+                    </div>
+                    <button id="archive-btn" class="icon-btn">
+                        <i class="fas fa-archive"></i>
+                    </button>
+                    <button id="settings-btn" class="icon-btn">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button id="add-goal-btn" class="icon-btn add-btn">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="header-tabs">
+                <button class="tab-btn active" data-tab="goals">
+                    <i class="fas fa-bullseye"></i>
+                    Мої цілі
+                </button>
+                <button class="tab-btn" data-tab="tasks">
+                    <i class="fas fa-tasks"></i>
+                    Мої завдання
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Goals List -->
+            <div id="goals-list" class="goals-list">
+                <!-- Goals will be added here dynamically -->
+            </div>
+
+            <!-- Tasks List -->
+            <div id="tasks-list" class="tasks-list" style="display: none;">
+                <!-- Week Calendar Header -->
+                <div class="week-calendar-header large">
+                    <div class="current-day-info">
+                        <div class="calendar-actions">
+                            <button id="calendar-view-btn" class="calendar-btn" title="Місячний календар">
+                                <i class="fas fa-calendar-alt"></i>
+                            </button>
+                            <button id="today-btn" class="calendar-btn" title="Повернутися до сьогодні">
+                                <i class="fas fa-home"></i>
+                            </button>
+                        </div>
+                        <div class="current-day-header">
+                            <div class="current-day-name" id="current-day-name">Понеділок</div>
+                            <div class="current-day-date" id="current-day-date">1</div>
+                            <div class="current-day-month" id="current-day-month">січня 2024</div>
+                        </div>
+                    </div>
+                    <div class="calendar-actions">
+                        <button id="add-task-btn" class="icon-btn add-btn">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Day Tasks (під прямокутником) -->
+                <div class="day-tasks">
+                    <div class="day-tasks-header">
+                        <h3 class="day-tasks-title" id="day-tasks-title">Завдання на сьогодні</h3>
+                    </div>
+                    <div id="day-tasks-list" class="day-tasks-list">
+                        <!-- Tasks for selected day will be shown here -->
+                    </div>
+                </div>
+
+                <!-- Week Calendar -->
+                <div class="week-calendar">
+                    <div class="week-navigation">
+                        <div class="week-days" id="week-days">
+                            <!-- Week days will be generated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="empty-state">
+                <i class="fas fa-bullseye empty-icon"></i>
+                <h2>Поки що немає цілей</h2>
+                <p>Натисніть кнопку + щоб додати першу ціль</p>
+            </div>
+        </main>
+
+        <!-- Add Goal Modal -->
+        <div id="add-goal-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Додати ціль</h2>
+                    <button id="close-modal" class="close-btn">&times;</button>
+                </div>
+                <form id="add-goal-form">
+                    <div class="form-group">
+                        <label for="goal-title">Назва цілі</label>
+                        <input type="text" id="goal-title" required placeholder="Введіть назву цілі">
+                    </div>
+                    <div class="form-group">
+                        <label for="goal-description">Опис (необов'язково)</label>
+                        <textarea id="goal-description" placeholder="Введіть опис" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="goal-bars">Кількість смужок прогресу</label>
+                        <div class="stepper">
+                            <button type="button" id="decrease-bars">-</button>
+                            <span id="bars-count">5</span>
+                            <button type="button" id="increase-bars">+</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label data-translate="Steps for bars (Optional)">Кроки для смужок (необов'язково)</label>
+                        <div id="steps-container" class="steps-container">
+                            <!-- Steps will be added here dynamically -->
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="cancel-add" class="btn btn-secondary">Скасувати</button>
+                        <button type="submit" class="btn btn-primary">Зберегти</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Goal Detail Modal -->
+        <div id="goal-detail-modal" class="modal">
+            <div class="modal-content large">
+                <div class="modal-header">
+                    <h2 id="detail-goal-title">Назва цілі</h2>
+                    <button id="close-detail-modal" class="close-btn">&times;</button>
+                </div>
+                <div class="goal-detail-content">
+                    <div id="goal-description-section" class="description-section" style="display: none;">
+                        <h3>Опис</h3>
+                        <p id="detail-goal-description"></p>
+                    </div>
+                    
+                    <div class="progress-section">
+                        <div class="progress-header">
+                            <h3>Прогрес</h3>
+                            <span id="progress-percentage">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="progress-fill" class="progress-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="progress-bars-section">
+                        <h3>Щоденні смужки прогресу</h3>
+                        <p class="instruction">Клікніть на смужку для зміни статусу</p>
+                        <div class="progress-bars-container">
+                            <div id="progress-bars-grid" class="progress-bars-grid">
+                                <!-- Progress bars will be added here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="goal-actions">
+                        <button id="edit-goal-btn" class="btn btn-secondary">
+                            <i class="fas fa-edit"></i> <span data-translate="Edit">Редагувати</span>
+                        </button>
+                        <button id="archive-goal-btn" class="btn btn-primary" style="display: none;">
+                            <i class="fas fa-archive"></i> <span data-translate="Archive Goal">Перенести в архів</span>
+                        </button>
+                        <button id="delete-goal-btn" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> <span data-translate="Delete">Видалити</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Налаштування</h2>
+                    <button id="close-settings-modal" class="close-btn">&times;</button>
+                </div>
+                <div class="settings-content">
+                    <div class="settings-section">
+                        <h3>Мова</h3>
+                        <div class="language-options">
+                            <button class="language-btn active" data-lang="uk">
+                                🇺🇦 Українська
+                            </button>
+                            <button class="language-btn" data-lang="en">
+                                🇺🇸 English
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Сповіщення</h3>
+                        <div class="toggle-group">
+                            <label class="toggle-label">
+                                <span>Увімкнути сповіщення</span>
+                                <input type="checkbox" id="notifications-toggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Інформація про додаток</h3>
+                        <div class="info-item">
+                            <span>Версія:</span>
+                            <span>1.0.0</span>
+                        </div>
+                        <div class="info-item">
+                            <span>Розробник:</span>
+                            <span>Goals Tracker Team</span>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Резервне копіювання</h3>
+                        <div class="backup-actions">
+                            <button id="export-data" class="btn btn-secondary">
+                                <i class="fas fa-download"></i> Експорт даних
+                            </button>
+                            <button id="import-data" class="btn btn-secondary">
+                                <i class="fas fa-upload"></i> Імпорт даних
+                            </button>
+                            <button id="clear-data" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Очистити всі дані
+                            </button>
+                        </div>
+                        <p class="backup-info">
+                            <small>Дані зберігаються локально на вашому пристрої та працюють офлайн</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Archive Modal -->
+        <div id="archive-modal" class="modal">
+            <div class="modal-content large">
+                <div class="modal-header">
+                    <h2 data-translate="Archived Goals">Архівні цілі</h2>
+                    <button id="close-archive-modal" class="close-btn">&times;</button>
+                </div>
+                <div class="archive-content">
+                    <div id="archived-goals-list" class="goals-list">
+                        <!-- Archived goals will be added here -->
+                    </div>
+                    <div id="empty-archive" class="empty-state">
+                        <i class="fas fa-archive empty-icon"></i>
+                        <h2 data-translate="Archive is Empty">Архів порожній</h2>
+                        <p data-translate="Completed goals will be stored here">Тут будуть зберігатися завершені цілі</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Goal Modal -->
+        <div id="edit-goal-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 data-translate="Edit Goal">Редагувати ціль</h2>
+                    <button id="close-edit-modal" class="close-btn">&times;</button>
+                </div>
+                <form id="edit-goal-form">
+                    <div class="form-group">
+                        <label for="edit-goal-title">Назва цілі</label>
+                        <input type="text" id="edit-goal-title" required placeholder="Введіть назву цілі">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-goal-description">Опис (необов'язково)</label>
+                        <textarea id="edit-goal-description" placeholder="Введіть опис" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-goal-bars">Кількість смужок прогресу</label>
+                        <div class="stepper">
+                            <button type="button" id="edit-decrease-bars">-</button>
+                            <span id="edit-bars-count">5</span>
+                            <button type="button" id="edit-increase-bars">+</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Кроки для смужок (необов'язково)</label>
+                        <div id="edit-steps-container" class="steps-container">
+                            <!-- Steps will be added here dynamically -->
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="cancel-edit" class="btn btn-secondary">Скасувати</button>
+                        <button type="submit" class="btn btn-primary">Зберегти</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Add Task Modal -->
+        <div id="add-task-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Додати завдання</h2>
+                    <button id="close-task-modal" class="close-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form id="add-task-form">
+                    <div class="form-group">
+                        <label for="task-title">Назва завдання *</label>
+                        <input type="text" id="task-title" required placeholder="Введіть назву завдання">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="task-description">Опис (необов'язково)</label>
+                        <textarea id="task-description" placeholder="Введіть опис завдання"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="task-time">Час (необов'язково)</label>
+                        <div class="input-with-icon">
+                            <input type="time" id="task-time">
+                            <span class="input-icon"><i class="fas fa-clock"></i></span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Сповіщення</label>
+                        <div class="notifications-container">
+                            <div class="notification-item">
+                                <input type="checkbox" id="notification-1" class="notification-checkbox">
+                                <label for="notification-1">Сповіщення 1</label>
+                                <select id="notification-time-1" class="notification-select">
+                                    <option value="5">За 5 хв</option>
+                                    <option value="15">За 15 хв</option>
+                                    <option value="30">За 30 хв</option>
+                                    <option value="45">За 45 хв</option>
+                                    <option value="60">За 60 хв</option>
+                                </select>
+                            </div>
+                            <div class="notification-item">
+                                <input type="checkbox" id="notification-2" class="notification-checkbox">
+                                <label for="notification-2">Сповіщення 2</label>
+                                <select id="notification-time-2" class="notification-select">
+                                    <option value="5">За 5 хв</option>
+                                    <option value="15">За 15 хв</option>
+                                    <option value="30">За 30 хв</option>
+                                    <option value="45">За 45 хв</option>
+                                    <option value="60">За 60 хв</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" id="cancel-task" class="btn btn-secondary">Скасувати</button>
+                        <button type="submit" class="btn btn-primary">Додати</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Monthly Calendar Modal -->
+        <div id="monthly-calendar-modal" class="modal">
+            <div class="modal-content large">
+                <div class="modal-header">
+                    <div class="calendar-navigation">
+                        <button id="prev-month" class="icon-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span id="current-month-year">Грудень 2024</span>
+                        <button id="next-month" class="icon-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <button id="close-monthly-calendar" class="close-btn">&times;</button>
+                </div>
+                <div class="monthly-calendar-content">
+                    <div class="monthly-calendar-grid" id="monthly-calendar-grid">
+                        <!-- Calendar grid will be generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

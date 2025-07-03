@@ -1,0 +1,2093 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #000;
+    color: #fff;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+#app {
+    max-width: 500px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* Header */
+.header {
+    background-color: #111;
+    padding: 0;
+    border-bottom: 1px solid #333;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-top {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.header-tabs {
+    display: flex;
+    border-top: 1px solid #333;
+}
+
+.tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    color: #888;
+    padding: 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.tab-btn:hover {
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+.tab-btn.active {
+    color: #00ff88;
+    border-bottom: 2px solid #00ff88;
+    background-color: #1a1a1a;
+}
+
+.tab-btn i {
+    font-size: 1rem;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.icon-btn:hover {
+    background-color: #333;
+}
+
+.add-btn {
+    color: #00ff88;
+}
+
+.offline-indicator {
+    color: #ff4444;
+    font-size: 1rem;
+    padding: 0.5rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 1rem;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #888;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-state h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+/* Goals List */
+.goals-list {
+    display: none;
+}
+
+.goals-list.show {
+    display: block;
+}
+
+/* Tasks List */
+.tasks-list {
+    display: none;
+}
+
+.tasks-list.show {
+    display: block;
+}
+
+.goal-item {
+    background-color: #111;
+    border-radius: 12px;
+    padding: 1rem 1rem 1rem 2.5rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+    border: 1px solid #333;
+    position: relative;
+}
+
+.goal-item:hover {
+    transform: translateY(-2px);
+    background-color: #1a1a1a;
+}
+
+.goal-item.dragging {
+    opacity: 0.5;
+    transform: rotate(5deg);
+    z-index: 1000;
+}
+
+.goal-item.drag-over {
+    border-color: #00ff88;
+    background-color: #1a1a1a;
+    transform: translateY(-2px);
+}
+
+.goal-drag-handle {
+    position: absolute;
+    top: 50%;
+    left: 0.5rem;
+    transform: translateY(-50%);
+    color: #666;
+    cursor: grab;
+    font-size: 1.2rem;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: color 0.2s;
+    z-index: 2;
+    user-select: none;
+}
+
+.goal-drag-handle:hover {
+    color: #00ff88;
+}
+
+.goal-drag-handle:active {
+    cursor: grabbing;
+}
+
+.goal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.goal-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.goal-progress {
+    background-color: #111;
+    color: #fff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    min-width: 40px;
+    text-align: center;
+    border: 1px solid #333;
+    transition: background 0.2s, color 0.2s;
+}
+
+.goal-progress.negative {
+    background-color: #ff4444;
+    color: #000;
+}
+
+.goal-progress.positive {
+    background-color: #00ff88;
+    color: #000;
+}
+
+.goal-progress.neutral {
+    background-color: #111;
+    color: #fff;
+}
+
+.goal-description {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.goal-progress-bar {
+    height: 6px;
+    background-color: #333;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.goal-progress-fill {
+    height: 100%;
+    background-color: #00ff88;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.goal-progress-fill.negative {
+    background-color: #ff4444;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: #111;
+    border-radius: 16px;
+    margin: 2rem auto;
+    max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid #333;
+}
+
+.modal-content.large {
+    max-width: 100%;
+    max-height: 100vh;
+    margin: 0;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content.large .modal-header {
+    flex-shrink: 0;
+}
+
+.modal-content.large .goal-detail-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #333;
+}
+
+.modal-header h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.close-btn:hover {
+    background-color: #333;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 1rem;
+    padding: 0 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #fff;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background-color: #222;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #00ff88;
+}
+
+.stepper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.stepper button {
+    background-color: #333;
+    border: none;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: background-color 0.2s;
+}
+
+.stepper button:hover {
+    background-color: #444;
+}
+
+.stepper span {
+    font-size: 1.2rem;
+    font-weight: 600;
+    min-width: 30px;
+    text-align: center;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-top: 1px solid #333;
+}
+
+.btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: #00ff88;
+    color: #000;
+}
+
+.btn-primary:hover {
+    background-color: #00cc6a;
+}
+
+.btn-secondary {
+    background-color: #333;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #444;
+}
+
+/* Goal Detail Styles */
+.goal-detail-content {
+    padding: 1rem;
+}
+
+.description-section {
+    background-color: #1a1a1a;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.description-section h3 {
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.description-section p {
+    color: #888;
+    line-height: 1.5;
+}
+
+.progress-section {
+    margin-bottom: 1.5rem;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.progress-header h3 {
+    color: #fff;
+}
+
+#progress-percentage {
+    background-color: #00ff88;
+    color: #000;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #333;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #00ff88;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.progress-fill.negative {
+    background-color: #ff4444;
+}
+
+.progress-bars-section h3 {
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.instruction {
+    color: #888;
+    font-style: italic;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+/* Steps Container */
+.steps-container {
+    margin-bottom: 1rem;
+}
+
+.step-item {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    align-items: center;
+}
+
+.step-item input {
+    flex: 1;
+    background-color: #222;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 0.5rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.step-item input:focus {
+    outline: none;
+    border-color: #00ff88;
+}
+
+.remove-step-btn {
+    background: #ff4444;
+    border: none;
+    color: #fff;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    min-width: 30px;
+}
+
+.remove-step-btn:hover {
+    background: #ff6666;
+}
+
+/* Updated Progress Bars Grid */
+.progress-bars-section {
+    margin-top: 1rem;
+}
+
+.progress-bars-container {
+    position: relative;
+    width: 100%;
+    overflow: visible;
+}
+
+.progress-bars-grid {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    justify-content: stretch;
+}
+
+.progress-bar-item {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    position: relative;
+}
+
+.progress-bar-item:hover {
+    transform: scale(1.05);
+}
+
+.progress-bar-visual {
+    width: 100%;
+    height: 3.5rem;
+    border-radius: 8px;
+    background-color: #333;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-bar-visual.neutral {
+    background-color: #333;
+}
+
+.progress-bar-visual.center {
+    background-color: #111;
+}
+
+.progress-bar-visual.left {
+    background-color: #ff4444;
+}
+
+.progress-bar-visual.right {
+    background-color: #00ff88;
+}
+
+.progress-bar-number {
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.9rem;
+    z-index: 1;
+}
+
+.progress-bar-visual.center .progress-bar-number {
+    color: #000;
+}
+
+.progress-bar-visual.left .progress-bar-number {
+    color: #000;
+}
+
+.progress-bar-visual.right .progress-bar-number {
+    color: #000;
+}
+
+/* Tooltip for hover - only for green bars */
+.progress-bar-item .tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 0.5rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    margin-bottom: 0.5rem;
+    max-width: 200px;
+    white-space: normal;
+    text-align: center;
+}
+
+.progress-bar-item .tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #333;
+}
+
+.progress-bar-item .tooltip.show {
+    opacity: 1;
+}
+
+/* Scroll indicators */
+.scroll-indicator {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.scroll-indicator:hover {
+    opacity: 1;
+}
+
+.scroll-left {
+    left: 0.5rem;
+}
+
+.scroll-right {
+    right: 0.5rem;
+}
+
+.scroll-indicator.hidden {
+    display: none;
+}
+
+/* Settings Styles */
+.settings-content {
+    padding: 1rem;
+}
+
+.settings-section {
+    margin-bottom: 2rem;
+}
+
+.settings-section h3 {
+    margin-bottom: 1rem;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.language-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.language-btn {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    color: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.language-btn:hover {
+    background-color: #222;
+}
+
+.language-btn.active {
+    border-color: #00ff88;
+    background-color: #1a1a1a;
+}
+
+.toggle-group {
+    margin-bottom: 1rem;
+}
+
+.toggle-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.toggle-label:hover {
+    background-color: #222;
+}
+
+.toggle-label input {
+    display: none;
+}
+
+.toggle-slider {
+    width: 50px;
+    height: 24px;
+    background-color: #333;
+    border-radius: 12px;
+    position: relative;
+    transition: background-color 0.2s;
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #222;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.2s;
+}
+
+.toggle-label input:checked + .toggle-slider {
+    background-color: #00ff88;
+}
+
+.toggle-label input:checked + .toggle-slider::before {
+    transform: translateX(26px);
+}
+
+.notification-options {
+    margin-top: 1rem;
+    padding-left: 1rem;
+    border-left: 2px solid #333;
+}
+
+.notification-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+}
+
+.notification-item:last-child {
+    margin-bottom: 0;
+}
+
+.time-input {
+    background-color: #222;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 0.5rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    min-width: 100px;
+}
+
+.time-input:focus {
+    outline: none;
+    border-color: #00ff88;
+}
+
+.notification-item .toggle-label {
+    flex: 1;
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+.notification-item .toggle-label:hover {
+    background: none;
+}
+
+/* Goal Actions */
+.goal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn-danger {
+    background-color: #000;
+    color: #fff;
+    border: 1px solid #333;
+}
+
+.btn-danger:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+/* Archive Modal */
+.archive-content {
+    padding: 1rem;
+}
+
+#archived-goals-list {
+    display: none;
+}
+
+#archived-goals-list.show {
+    display: block;
+}
+
+#empty-archive {
+    display: block;
+}
+
+#empty-archive.hide {
+    display: none;
+}
+
+/* Archived Goals */
+.goal-item.archived {
+    opacity: 0.8;
+    background-color: #0a0a0a;
+    border-color: #444;
+}
+
+.goal-item.archived .goal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.archived-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    min-width: auto;
+}
+
+.completed-steps {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    border-left: 3px solid #00ff88;
+}
+
+.completed-steps h4 {
+    color: #00ff88;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.completed-steps ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.completed-steps li {
+    color: #fff;
+    font-size: 0.85rem;
+    padding: 0.25rem 0;
+    border-bottom: 1px solid #333;
+}
+
+.completed-steps li:last-child {
+    border-bottom: none;
+}
+
+.goal-archived-date {
+    background-color: #666;
+    color: #fff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.goal-item.archived .goal-progress-fill {
+    background-color: #00ff88 !important;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .header {
+        padding: 0.75rem;
+    }
+    
+    .header h1 {
+        font-size: 1.3rem;
+    }
+    
+    .main-content {
+        padding: 0.75rem;
+    }
+    
+    .modal-content {
+        margin: 1rem;
+        max-width: calc(100% - 2rem);
+    }
+    
+    .progress-bars-grid {
+        grid-template-columns: repeat(10, 1fr);
+        gap: 0.25rem;
+    }
+    
+    .progress-bar-visual {
+        width: 16px;
+        height: 100px;
+    }
+    
+    .progress-bar-number {
+        font-size: 0.6rem;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 360px) {
+    .progress-bars-grid {
+        grid-template-columns: repeat(8, 1fr);
+    }
+    
+    .progress-bar-visual {
+        width: 14px;
+        height: 80px;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .progress-bars-grid {
+        grid-template-columns: repeat(12, 1fr);
+    }
+    
+    .progress-bar-visual {
+        width: 18px;
+        height: 110px;
+    }
+}
+
+/* iPhone 15 Pro and mobile responsive styles */
+@media (max-width: 430px) {
+    #app {
+        max-width: 393px;
+        min-width: 393px;
+        width: 393px;
+        height: 100vh;
+        min-height: 100vh;
+        max-height: 100vh;
+        overflow-y: hidden;
+    }
+    html, body {
+        width: 100vw;
+        min-width: 100vw;
+        max-width: 100vw;
+        height: 100vh;
+        min-height: 100vh;
+        max-height: 100vh;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+    
+    .header {
+        padding: 0.75rem;
+    }
+    
+    .header h1 {
+        font-size: 1.3rem;
+    }
+    
+    .main-content {
+        padding: 0.75rem;
+    }
+    
+    .modal-content {
+        margin: 1rem auto;
+        max-width: 95%;
+    }
+    
+    .goal-actions {
+        flex-direction: column;
+    }
+    
+    .goal-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .progress-bars-container {
+        margin: 0 -0.75rem;
+        width: calc(100% + 1.5rem);
+    }
+    
+    .progress-bars-grid {
+        gap: 6px;
+    }
+    
+    .progress-bar-visual {
+        width: 100%;
+        height: 20px;
+    }
+    
+    .progress-bar-number {
+        font-size: 0.6rem;
+    }
+    
+    .tooltip {
+        max-width: 150px;
+        font-size: 0.7rem;
+        padding: 0.4rem;
+    }
+}
+
+@media (max-width: 375px) {
+    /* iPhone SE and smaller */
+    .progress-bars-grid {
+        padding: 0 35%;
+        gap: 0.25rem;
+    }
+    
+    .progress-bar-visual {
+        width: 14px;
+        height: 80px;
+    }
+    
+    .progress-bar-number {
+        font-size: 0.5rem;
+    }
+}
+
+@media (max-width: 320px) {
+    /* Very small screens */
+    .progress-bars-grid {
+        padding: 0 30%;
+        gap: 0.2rem;
+    }
+    
+    .progress-bar-visual {
+        width: 12px;
+        height: 70px;
+    }
+}
+
+/* Tablet and larger screens */
+@media (min-width: 431px) and (max-width: 768px) {
+    .progress-bars-grid {
+        padding: 0 45%;
+        gap: 0.4rem;
+    }
+    
+    .progress-bar-visual {
+        width: 18px;
+        height: 110px;
+    }
+}
+
+/* Desktop */
+@media (min-width: 769px) {
+    .progress-bars-grid {
+        gap: 12px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .progress-bar-visual {
+        width: 100%;
+        height: 32px;
+        border-radius: 10px;
+    }
+    
+    .progress-bar-number {
+        font-size: 0.8rem;
+        margin-top: 4px;
+    }
+    
+    .tooltip {
+        max-width: 250px;
+        font-size: 0.9rem;
+        padding: 0.6rem;
+    }
+}
+
+/* Large Desktop (16 inch laptop and larger) */
+@media (min-width: 1366px) {
+    .progress-bars-grid {
+        gap: 16px;
+        max-width: 1400px;
+    }
+    
+    .progress-bar-visual {
+        height: 40px;
+        border-radius: 12px;
+    }
+    
+    .progress-bar-number {
+        font-size: 0.9rem;
+        margin-top: 6px;
+    }
+    
+    .tooltip {
+        max-width: 300px;
+        font-size: 1rem;
+        padding: 0.8rem;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.show .modal-content {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Show/Hide Logic */
+.empty-state.hide {
+    display: none;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #333;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.backup-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.backup-info {
+    color: #888;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.progress-bar-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    position: relative;
+}
+
+.progress-bar-item:hover {
+    transform: scale(1.05);
+}
+
+.progress-bar-info {
+    position: absolute;
+    top: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 0.5rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+}
+
+.progress-bar-info.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.progress-bar-info::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #333;
+}
+
+.progress-bar-info-icon {
+    position: absolute;
+    top: -1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #00ff88;
+    color: #000;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.progress-bar-info-icon:hover {
+    background-color: #00cc6a;
+}
+
+/* Task completion checkbox */
+.task-complete {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #555;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.task-complete:hover {
+    border-color: #00ff88;
+    background: rgba(0, 255, 136, 0.1);
+    transform: scale(1.1);
+}
+
+.task-complete.checked {
+    background: #00ff88;
+    border-color: #00ff88;
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
+
+.task-complete.checked::after {
+    content: '✓';
+    color: #000;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Task item styling with completion state */
+.task-item {
+    background: linear-gradient(135deg, #1a1a1a 0%, #222 100%) !important;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 0.8rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+    color: #fff;
+}
+
+.task-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-color: #00ff88;
+}
+
+.task-item.completed {
+    border: 2px solid #00ff88;
+    background: linear-gradient(135deg, #1a1a1a 0%, #1f2a1f 100%);
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+}
+
+.task-item.completed .task-title {
+    color: #00cc6a;
+    text-decoration: line-through;
+    opacity: 0.8;
+}
+
+.task-item.completed .task-description {
+    color: #999;
+    opacity: 0.7;
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+    gap: 1rem;
+    padding-right: 2rem; /* Space for checkbox */
+}
+
+.task-title {
+    color: #fff !important;
+    font-weight: bold;
+    font-size: 1.1rem;
+    flex: 1;
+    word-wrap: break-word;
+    line-height: 1.3;
+    transition: all 0.3s ease;
+}
+
+.task-time {
+    color: #fff !important;
+    font-size: 0.9rem;
+    background: rgba(0, 123, 255, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+}
+
+.task-description {
+    color: #ccc !important;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-bottom: 0.8rem;
+    word-wrap: break-word;
+    transition: all 0.3s ease;
+}
+
+.task-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+.task-actions .btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    min-width: 40px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.task-actions .btn i {
+    font-size: 0.9rem;
+}
+
+.edit-task-btn {
+    background-color: #2a2a2a;
+    color: #00ff88;
+    border: 1px solid #00ff88;
+}
+
+.edit-task-btn:hover {
+    background-color: #00ff88;
+    color: #000;
+}
+
+.delete-task-btn {
+    background-color: #2a2a2a;
+    color: #ff4757;
+    border: 1px solid #ff4757;
+}
+
+.delete-task-btn:hover {
+    background-color: #ff4757;
+    color: #fff;
+}
+
+/* Task Modal Styles */
+.task-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.task-modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.task-modal-content {
+    background: #181818;
+    border-radius: 16px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 0.75rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #00ff88;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.priority-options {
+    display: flex;
+    gap: 1rem;
+}
+
+.priority-option {
+    flex: 1;
+    padding: 0.75rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.priority-option:hover {
+    border-color: #00ff88;
+}
+
+.priority-option.selected {
+    border-color: #00ff88;
+    background: rgba(0, 255, 136, 0.1);
+}
+
+.priority-option.high {
+    border-color: #ff4757;
+}
+
+.priority-option.high.selected {
+    background: rgba(255, 71, 87, 0.1);
+}
+
+.priority-option.medium {
+    border-color: #ffa502;
+}
+
+.priority-option.medium.selected {
+    background: rgba(255, 165, 2, 0.1);
+}
+
+.priority-option.low {
+    border-color: #2ed573;
+}
+
+.priority-option.low.selected {
+    background: rgba(46, 213, 115, 0.1);
+}
+
+/* Week Calendar Styles */
+.week-calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #181818 !important;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.current-day-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 2rem 1.2rem 1.2rem;
+    background: #181818;
+    border-radius: 18px;
+    min-height: 120px;
+}
+
+.current-day-info-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 120px;
+    max-width: 150px;
+    flex-shrink: 0;
+    margin-right: 1.2rem;
+}
+
+.current-day-name {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #00ff88;
+    margin-bottom: 0.2rem;
+    text-shadow: 0 2px 4px rgba(0, 255, 136, 0.3);
+    text-align: center;
+}
+
+.current-day-date {
+    color: #fff;
+    font-size: 2.3rem;
+    font-weight: bold;
+    line-height: 1;
+    margin-bottom: 0.1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.current-day-month {
+    color: #ccc;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.current-day-info .calendar-btns {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.current-day-info .add-task-btn {
+    margin-left: auto;
+    color: #00ff88;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.current-day-info .add-task-btn:hover {
+    color: #fff;
+}
+
+.calendar-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.week-calendar {
+    background: #181818;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.week-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+}
+
+.week-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.75rem 0.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.week-day:hover {
+    background: rgba(0, 255, 136, 0.1);
+}
+
+.week-day.selected {
+    background: #00ff88;
+    color: #fff;
+}
+
+.week-day.selected * {
+    color: #fff !important;
+}
+
+.week-day-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.week-day-date {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.week-day.has-tasks::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    width: 4px;
+    height: 4px;
+    background: #007bff;
+    border-radius: 50%;
+}
+
+.week-day.selected.has-tasks::after {
+    background: #181818;
+}
+
+.day-tasks {
+    background: #181818;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.day-tasks-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.day-tasks-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.task-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    border-left: 4px solid #00ff88;
+    transition: all 0.3s ease;
+}
+
+.task-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+.task-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.task-time {
+    font-size: 0.9rem;
+    color: #666;
+    background: rgba(0, 123, 255, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+}
+
+.task-description {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.task-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+/* Monthly Calendar Styles (from web-app 2) */
+.monthly-calendar-content {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.monthly-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    padding: 1rem;
+}
+
+.calendar-day {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 0.8rem 0.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.calendar-day:hover {
+    background: #2a2a2a;
+    border-color: #00ff88;
+}
+
+.calendar-day.selected {
+    background: #00ff88;
+    color: #000;
+    border-color: #00ff88;
+}
+
+.calendar-day.other-month {
+    opacity: 0.5;
+    background: #0a0a0a;
+}
+
+.calendar-day.has-tasks {
+    border-color: #007bff;
+    position: relative;
+}
+
+.calendar-day.has-tasks::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: #007bff;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
+
+.calendar-day.has-completed-tasks::after {
+    background: #00ff88 !important;
+    box-shadow: 0 0 4px rgba(0, 255, 136, 0.5) !important;
+}
+
+.calendar-day.selected.has-completed-tasks::after {
+    background: #000 !important;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5) !important;
+}
+
+.calendar-day-number {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.calendar-day.selected .calendar-day-number {
+    color: #000;
+}
+
+.calendar-day-name {
+    font-size: 0.7rem;
+    color: #888;
+    margin-top: 0.2rem;
+}
+
+.calendar-day.selected .calendar-day-name {
+    color: #000;
+}
+
+.calendar-day.header {
+    background: #333 !important;
+    color: #00ff88 !important;
+    font-weight: bold !important;
+    cursor: default;
+    min-height: 30px;
+    border-radius: 8px !important;
+    text-align: center;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0.5rem 0 !important;
+    letter-spacing: 0.02em;
+    font-size: 1.1rem;
+}
+
+.calendar-day.header:hover {
+    background: #333 !important;
+    border-color: #333 !important;
+}
+
+/* Checkbox styles */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+.checkbox-label:hover {
+    background: rgba(0, 255, 136, 0.1);
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #00ff88;
+}
+
+.notification-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.calendar-day.selected .calendar-day-name {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.calendar-day.header {
+    background: #232323 !important;
+    color: #00ff88 !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    text-align: center;
+    min-width: 48px;
+    min-height: 40px;
+    font-size: 1.1rem;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0.5rem 0 !important;
+    cursor: default;
+    letter-spacing: 0.02em;
+}
+
+.calendar-day.header:hover {
+    background: #f8f9fa !important;
+}
+
+/* Контейнер блока с датой */
+.current-day-info-wrapper, .current-day-card, .current-day-block {
+    background: #181818 !important;
+}
+
+/* Если используется другой класс для этого блока, добавьте его сюда */
+
+.week-day.selected .week-day-name,
+.week-day.selected .week-day-number,
+.week-day.selected .week-day-month {
+    color: #111 !important;
+}
+
+.calendar-btn, .home-btn {
+    background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+    border: 2px solid #00ff88;
+    color: #00ff88;
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+    min-height: 50px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.calendar-btn:hover, .home-btn:hover {
+    background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 255, 136, 0.3);
+}
+
+.calendar-btn:active, .home-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 255, 136, 0.3);
+}
+
+.current-day-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 90px;
+    max-width: 110px;
+    margin-left: 1.2rem;
+    margin-right: 1.2rem;
+    background: none;
+    box-shadow: none;
+    padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+}
+
+.current-day-header .current-day-name {
+    font-size: 28.8px;
+    font-weight: bold;
+    color: #00ff88;
+    margin-bottom: 0.1rem;
+    text-shadow: 0 2px 4px rgba(0, 255, 136, 0.3);
+    text-align: center;
+}
+
+.current-day-header .current-day-date {
+    font-size: 48px;
+    font-weight: bold;
+    line-height: 1;
+    margin-bottom: 0.1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.current-day-header .current-day-month {
+    font-size: 19.2px;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.modal-content label,
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+    color: #fff !important;
+}
+
+.modal-content input::placeholder,
+.modal-content textarea::placeholder {
+    color: #ccc !important;
+    opacity: 1;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) brightness(2);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+    color-scheme: light;
+}
+
+.notification-select {
+    background: #181818 !important;
+    color: #fff !important;
+    border: 1px solid #333 !important;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    box-shadow: none;
+}
+
+.week-day.has-tasks.has-completed-tasks::after {
+    background: #00ff88 !important;
+    box-shadow: 0 0 4px rgba(0, 255, 136, 0.5) !important;
+}
+
+/* Зменшення розміру кнопок календарика і додому в 1,5 раза */
+.calendar-btn, .home-btn {
+    width: calc(2.5rem / 1.5);
+    height: calc(2.5rem / 1.5);
+    font-size: calc(1.5rem / 1.5);
+    padding: calc(0.75rem / 1.5);
+}
+.calendar-btn i, .home-btn i {
+    font-size: calc(1.5rem / 1.5);
+} 
